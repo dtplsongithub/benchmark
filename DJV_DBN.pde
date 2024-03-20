@@ -12,14 +12,14 @@
   */
   
   
-int t = 700;
+int t;
 
-String[] titles = {"d's JAVA BENCHMARK", "made in 2024", "", "BENCHMARK SCORE: ", "press esc to exit"};
+String[] titles = {"D'S BENCHMARK", "made in 2024 in processing.", "", "BENCHMARK SCORE: ", "press esc to exit"};
 int maxbn = 7;
 int oldsecond = second();
 int total = 0;
 boolean debug = false;
-int bndur = 100; // 100 frames is the default
+int bndur = 300;
 int totstep = 20;
 int endt = -1; // -1 is not set
 PImage imgon, imgoff, imgonw;
@@ -158,7 +158,7 @@ void draw(){
       beginCamera();
       camera();
       translate(800, 1000, 0);
-      rotateY(float(t)/100);
+      rotateY(float(t)/1000);
       endCamera();
       directionalLight(255, 255, 255, 0, 1, 0);
       ambientLight(255, 255, 255);
@@ -167,10 +167,10 @@ void draw(){
       for(int y = 0; y<25; y++){
       pushMatrix();
       fill(255);
-      translate(x*200-(200*25/2), -buildSizes[(x+y*40)%100]*25, y*200-(200*25/2));
+      translate(x*200-(200*25/2), -buildSizes[(x+y*40)%100]*25+40, y*200-(200*25/2));
       stroke(255);
       fill(buildColor[buildColorSettings[(x+y*40)%100]]);
-      box(100, 300+buildSizes[(x+y*40)%100]*50, 100);
+      box(100, 300+buildSizes[(x+y*40)%100]*50+40, 100);
       translate(0, 0, -100);
       for (int s = 49; s>-120; s-=152){
       fill(255, 190);
@@ -209,7 +209,7 @@ void draw(){
       beginCamera();
       camera();
       translate(width, 0, -400);
-      rotateY((float)(Math.toRadians(t)));
+      rotateY((float)(Math.toRadians(t))/10);
       endCamera();
       for(int x = 0; x<(int)(ceil(width/100)*4); x++){
         for(int y = 0; y<(int)(ceil(height/100)*4); y++){
@@ -239,7 +239,7 @@ void draw(){
       lights();
       beginCamera();
       camera();
-      translate(width, 0, -(t-525)*50);
+      translate(width, 0, -(t-1600)*50);
       endCamera();
       for(int i = 0; i<ballPos.length; i++){
         pushMatrix();
@@ -309,8 +309,12 @@ void draw(){
   fill(255);
   textSize(22);
   text("FPS: "+Math.round(frameRate), 10, 25);
-  if (t%totstep==0 && benchnr > 0 && update) {
+  if (second() != oldsecond && benchnr>0) {
+    oldsecond = second();
     total += frameRate;
+    maxMemory = Runtime.getRuntime().maxMemory();
+    allocatedMemory = Runtime.getRuntime().totalMemory();
+    freeMemory = Runtime.getRuntime().freeMemory();
   }
   if(debug){
     stroke(255);
@@ -319,8 +323,6 @@ void draw(){
     fill(255);
     textLeading(24);
     text("total: "+total+
-    "\nsecond: "+second()+
-    "\noldsecond: "+oldsecond+
     "\nt: "+t+
     "\n"+mouseX+", "+mouseY+"\n\n"+
     PGraphicsOpenGL.OPENGL_RENDERER+
@@ -340,12 +342,12 @@ void draw(){
     textSize(60);
     text(titles[3], (width-textWidth(titles[3]+total))/2, height/2);
     text(total, (width+textWidth(titles[3])-textWidth(total+""))/2, min(tt*60-(60*60), height/2)); // FIXed yeyy
-    textSize(24);
+    textSize(20);
     int fpsonavy = max((60-tt+60)*60, height/2)+30;
-    text("("+(float(total)/(bndur/totstep*maxbn))+ " FPS on average)", width/2, fpsonavy);
+    text("("+nf(float(total)/(maxbn*(bndur/60)), 0, 2)+ " FPS on average)", width/2, fpsonavy);
     text(titles[4], (width-textWidth(titles[4]))/2, height-30);
   }
-  t++;
+  t=millis()/(1000/60);
 }
 void keyPressed() {
   if (key == 'd'||key=='D') debug = !debug;
