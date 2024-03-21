@@ -1,4 +1,5 @@
 void cnbumpersbelike() {
+  hint(ENABLE_DEPTH_TEST);
   beginCamera();
   camera();
   translate(width, 0, -400);

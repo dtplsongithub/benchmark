@@ -1,4 +1,6 @@
 void buildings() {
+  setGradient(0, 0, width, height, color(0, 0, 127), color(0, 0, 0));
+  hint(ENABLE_DEPTH_TEST);
   beginCamera();
   camera();
   translate(800, 1000, 0);

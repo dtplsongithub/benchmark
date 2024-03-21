@@ -1,20 +1,20 @@
 /**
  _________________   ___
-/______/______/__/\ /__/
-|  __  \  __  \  \ \| ||
-|  | \ |  |_| |   \ | ||
-|  | | |  __  / |\ \| ||
-|  | | |  | | | ||\   ||
-|  |_/ |  |_| | || \  ||
-|______/______/_|/  \_|/
-  * DJV_DBN
-  * v0.240219b
-  */
-  
-  
+ /______/______/__/\ /__/
+ |  __  \  __  \  \ \| ||
+ |  | \ |  |_| |   \ | ||
+ |  | | |  __  / |\ \| ||
+ |  | | |  | | | ||\   ||
+ |  |_/ |  |_| | || \  ||
+ |______/______/_|/  \_|/
+ * DJV_DBN
+ * v0.240219b
+ */
+
+
 int t;
 
-String[] titles = {"D'S BENCHMARK", "made in 2024 in processing.", "", "BENCHMARK SCORE: ", "press esc to exit"};
+String[] titles = {"D'S BENCHMARK", "made in 2024 in processing.", "!seizure warning!", "BENCHMARK SCORE: ", "press esc to exit"};
 int maxbn = 7;
 int oldsecond = second();
 int total = 0;
@@ -57,9 +57,9 @@ int terrainsize = 150;
 
 int q3drmp = 2;
 
-// SETUP 
+// SETUP
 
-void setup(){
+void setup() {
   fullScreen(P3D);
   background(0);
   stroke(255);
@@ -69,44 +69,44 @@ void setup(){
   imgoff = loadImage("off.png");
   imgonw = loadImage("onw.png");
   perspective(PI/3.0, float(width)/float(height), ((height/2.0) / tan(PI*60.0/360.0))/10.0, 99999);
-  for(int i = 0; i<buildSettings.length; i++){
-    buildSettings[i]=(int)(Math.floor(random(0,3)));
+  for (int i = 0; i<buildSettings.length; i++) {
+    buildSettings[i]=(int)(Math.floor(random(0, 3)));
   }
-  for(int i = 0; i<buildTitleSettings.length; i++){
-    buildTitleSettings[i]=(int)(Math.floor(random(0,buildTitle.length)));
+  for (int i = 0; i<buildTitleSettings.length; i++) {
+    buildTitleSettings[i]=(int)(Math.floor(random(0, buildTitle.length)));
   }
-  for(int i = 0; i<buildSizes.length; i++){
-    buildSizes[i]=(int)(Math.floor(random(-2,8)));
+  for (int i = 0; i<buildSizes.length; i++) {
+    buildSizes[i]=(int)(Math.floor(random(-2, 8)));
   }
-  for(int i = 0; i<buildColorSettings.length; i++){
-    buildColorSettings[i]=(int)(Math.floor(random(0,buildColor.length)));
+  for (int i = 0; i<buildColorSettings.length; i++) {
+    buildColorSettings[i]=(int)(Math.floor(random(0, buildColor.length)));
   }
-  for(int i = 0; i<buildColorSettings.length; i++){
-    buildColorSettings[i]=(int)(Math.floor(random(0,buildColor.length)));
+  for (int i = 0; i<buildColorSettings.length; i++) {
+    buildColorSettings[i]=(int)(Math.floor(random(0, buildColor.length)));
   }
-  for(int i = 0; i<gradients.length; i++){
+  for (int i = 0; i<gradients.length; i++) {
     int theone = (int)(random(0, 3));
-    gradients[i]=color(random(0, 255*int(theone==0)),random(0, 255*int(theone==1)),random(0, 255*int(theone==2)));
-    gradients2[i]=color(random(0, 64*int(theone==0)),random(0, 64*int(theone==1)),random(0, 64*int(theone==2)));
+    gradients[i]=color(random(0, 255*int(theone==0)), random(0, 255*int(theone==1)), random(0, 255*int(theone==2)));
+    gradients2[i]=color(random(0, 64*int(theone==0)), random(0, 64*int(theone==1)), random(0, 64*int(theone==2)));
   }
-  for(int i = 0; i<gradientsVRot.length; i++){
+  for (int i = 0; i<gradientsVRot.length; i++) {
     gradientsVRot[i][(int)(random(0, 2))]=random(-0.3, 0.3);
   }
-  for(int i = 0; i<gradientsVZ.length; i++){
+  for (int i = 0; i<gradientsVZ.length; i++) {
     gradientsVZ[i]=int(random(-3, 10));
   }
-  for(int i = 0; i<ballV.length; i++){
+  for (int i = 0; i<ballV.length; i++) {
     ballV[i][(int)(random(0, 2))*2]=random(10, 40)*(int(random(0, 3))-1);
   }
-  for(int i = 0; i<ballPos.length; i++){
+  for (int i = 0; i<ballPos.length; i++) {
     ballPos[i][0]=random(-6000, 6000);
     ballPos[i][1]=random(-3000, 3000);
     ballPos[i][2]=random(-6000, 6000);
   }
-  for(int i = 0; i<ballSize.length; i++){
+  for (int i = 0; i<ballSize.length; i++) {
     ballSize[i]=int(random(100, 600));
   }
-  for(int i = 0; i<ballColor.length; i++){
+  for (int i = 0; i<ballColor.length; i++) {
     ballColor[i]=color(random(127, 255), random(127, 255), random(127, 255), random(64, 191));
   }
 }
@@ -115,7 +115,7 @@ void setup(){
 // DRAWING
 
 
-void draw(){
+void draw() {
   update = true;
   background(0);
   int benchnr = (int)(Math.floor(t/bndur));
@@ -124,53 +124,53 @@ void draw(){
   } else {
     frameRate(30);
   }
-    if (benchnr <= maxbn) {
-    switch (benchnr){
-      case 0: {
+  if (benchnr <= maxbn) {
+    switch (benchnr) {
+    case 0: {
         textSize(40);
-        for (int i = 0; i < 3; i++){
-          text(titles[i], (width-textWidth(titles[i]))/2, height/2+i*40); 
+        for (int i = 0; i < 3; i++) {
+          text(titles[i], (width-textWidth(titles[i]))/2, height/2+i*40);
         }
         break;
       }
-      case 1: {
-        for(int i = 0; i < 10000; i++){
+    case 1: {
+        for (int i = 0; i < 10000; i++) {
           line(random(width), random(height), -1, random(width), random(height), -1);
         }
         break;
       }
-      case 2: {
+    case 2: {
         noStroke();
         fill(255, 10);
-        for(int i = 0; i < 1500; i++){
+        for (int i = 0; i < 1500; i++) {
           rect(random(width), random(height), random(width/3), random(height/3));
         }
         break;
       }
-      case 3: {
-        for(int i = 0; i < 5000; i++){
+    case 3: {
+        for (int i = 0; i < 5000; i++) {
           fill(255, random(127, 255));
-          text("HELLO NUMBER "+i,random(width), random(height));
+          text("HELLO NUMBER "+i, random(width), random(height));
         }
         break;
       }
-      case 4: {
+    case 4: {
         buildings();
         break;
       }
-      case 5: {
+    case 5: {
         cnbumpersbelike();
         break;
       }
-      case 6: {
+    case 6: {
         ballworld();
-        break; 
+        break;
       }
-      case 7: {
+    case 7: {
         terrain();
         break;
       }
-      default: {
+    default: {
         text("no benchmark number "+ benchnr+" was found!!", 300, 300);
         update = false;
       }
@@ -180,6 +180,7 @@ void draw(){
     translate(0, 0, 0);
     rotateZ(0);
     endCamera();
+    hint(DISABLE_DEPTH_TEST);
     stroke(255);
     fill(0);
     strokeWeight(2);
@@ -194,23 +195,23 @@ void draw(){
       allocatedMemory = Runtime.getRuntime().totalMemory();
       freeMemory = Runtime.getRuntime().freeMemory();
     }
-    if(debug){
+    if (debug) {
       stroke(255);
       fill(0);
       rect(0, 34, 300, 470, 10);
       fill(255);
       textLeading(24);
       text("total: "+total+
-      "\nt: "+t+
-      "\n"+mouseX+", "+mouseY+"\n\n"+
-      PGraphicsOpenGL.OPENGL_RENDERER+
-      "\nOpenGL version: "+PGraphicsOpenGL.OPENGL_VERSION+
-      "\nGLSL version: "+ PGraphicsOpenGL.GLSL_VERSION+
-      "\n\n\nmax memory: "+maxMemory/(1024*1024*1024)+" GB"+
-      "\nallocated memory: "+allocatedMemory/(1024*1024)+" MB"+
-      "\nfree memory: "+freeMemory/(1024*1024)+" MB"+
-      "\n\n\nmade in 2024"
-      , 10, 40, 280, height);
+        "\nt: "+t+
+        "\n"+mouseX+", "+mouseY+"\n\n"+
+        PGraphicsOpenGL.OPENGL_RENDERER+
+        "\nOpenGL version: "+PGraphicsOpenGL.OPENGL_VERSION+
+        "\nGLSL version: "+ PGraphicsOpenGL.GLSL_VERSION+
+        "\n\n\nmax memory: "+maxMemory/(1024*1024*1024)+" GB"+
+        "\nallocated memory: "+allocatedMemory/(1024*1024)+" MB"+
+        "\nfree memory: "+freeMemory/(1024*1024)+" MB"+
+        "\n\n\nmade in 2024"
+        , 10, 40, 280, height);
     }
   } else { // no indentation? too bad :)
     background(0);

@@ -1,11 +1,12 @@
 void terrain() {
+  hint(ENABLE_DEPTH_TEST);
   noStroke();
   background(20);
   lights();
   beginCamera();
   camera();
   translate(1000, 0, 0);
-  rotateY(float(t)/100);
+  rotateY(float(t)/1000);
   endCamera();
   pushMatrix();
   translate(terrainxoff, terrainyoff, terrainzoff);
