@@ -34,17 +34,14 @@ void terrain() {
     }
   }
   popMatrix();
+  hint(DISABLE_DEPTH_TEST);
 }
 boolean quad3dover(float tl, float tr, float br, float bl, int n){
   return (int(tl>n)+ int(tr>n)+ int(br>n)+ int(bl>n))>=q3drmp;
 }
-void quad3d(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) { // this not really a quad but eh
-  beginShape();
-  vertex(x1, y1, z1);
-  vertex(x2, y2, z2);
-  vertex(x3, y3, z3);
-  vertex(x4, y4, z4);
-  endShape();
+void quad3d(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
+  tri3d(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+  tri3d(x3, y3, z3, x4, y4, z4, x1, y1, z1);
 }
 void tri3d(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
   beginShape();

@@ -1,5 +1,5 @@
 /**
- _________________   ___
+  _________________   ___
  /______/______/__/\ /__/
  |  __  \  __  \  \ \| ||
  |  | \ |  |_| |   \ | ||
@@ -8,18 +8,18 @@
  |  |_/ |  |_| | || \  ||
  |______/______/_|/  \_|/
  * DJV_DBN
- * v0.240219b
+ * v0.250901
  */
 
 
-int t;
+int t=0;
 
 String[] titles = {"D'S BENCHMARK", "made in 2024 in processing.", "!seizure warning!", "BENCHMARK SCORE: ", "press esc to exit"};
-int maxbn = 7;
+int totalBench = 8;
 int oldsecond = second();
 int total = 0;
 boolean debug = false;
-int bndur = 300;
+int benchDuration = 300;
 int totstep = 20;
 int endt = -1; // -1 is not set
 PImage imgon, imgoff, imgonw;
@@ -27,6 +27,7 @@ boolean update = true;
 long maxMemory = Runtime.getRuntime().maxMemory();
 long allocatedMemory = Runtime.getRuntime().totalMemory();
 long freeMemory = Runtime.getRuntime().freeMemory();
+int benchNumber = 0;
 
 int[] buildSettings = new int[101]; // lights
 String[] buildTitle = {"pet shop", "hotel", "lidl", "store", "yummy food", "pharmacy", "HYPERMALL", "school", "police station", "mcdonalds"};
@@ -70,19 +71,19 @@ void setup() {
   imgonw = loadImage("onw.png");
   perspective(PI/3.0, float(width)/float(height), ((height/2.0) / tan(PI*60.0/360.0))/10.0, 99999);
   for (int i = 0; i<buildSettings.length; i++) {
-    buildSettings[i]=(int)(Math.floor(random(0, 3)));
+    buildSettings[i]=(int)random(0, 3);
   }
   for (int i = 0; i<buildTitleSettings.length; i++) {
-    buildTitleSettings[i]=(int)(Math.floor(random(0, buildTitle.length)));
+    buildTitleSettings[i]=(int)random(0, buildTitle.length);
   }
   for (int i = 0; i<buildSizes.length; i++) {
-    buildSizes[i]=(int)(Math.floor(random(-2, 8)));
+    buildSizes[i]=(int)random(-2, 8);
   }
   for (int i = 0; i<buildColorSettings.length; i++) {
-    buildColorSettings[i]=(int)(Math.floor(random(0, buildColor.length)));
+    buildColorSettings[i]=(int)random(0, buildColor.length);
   }
   for (int i = 0; i<buildColorSettings.length; i++) {
-    buildColorSettings[i]=(int)(Math.floor(random(0, buildColor.length)));
+    buildColorSettings[i]=(int)random(0, buildColor.length);
   }
   for (int i = 0; i<gradients.length; i++) {
     int theone = (int)(random(0, 3));
@@ -117,15 +118,15 @@ void setup() {
 
 void draw() {
   update = true;
+  benchNumber = (int)(Math.floor(t/benchDuration));
   background(0);
-  int benchnr = (int)(Math.floor(t/bndur));
-  if (benchnr > 0 && benchnr <= maxbn) {
+  if (benchNumber > 0 && benchNumber <= totalBench) {
     frameRate(999);
   } else {
-    frameRate(30);
+    frameRate(60);
   }
-  if (benchnr <= maxbn) {
-    switch (benchnr) {
+  if (benchNumber <= totalBench) {
+    switch (benchNumber) {
     case 0: {
         textSize(40);
         for (int i = 0; i < 3; i++) {
@@ -154,24 +155,23 @@ void draw() {
         }
         break;
       }
-    case 4: {
+    case 4: 
         buildings();
         break;
-      }
-    case 5: {
+    case 5: 
         cnbumpersbelike();
         break;
-      }
-    case 6: {
+    case 6: 
         ballworld();
         break;
-      }
-    case 7: {
+    case 7: 
         terrain();
         break;
-      }
+    case 8:
+      cubespersecond();
+      break;
     default: {
-        text("no benchmark number "+ benchnr+" was found!!", 300, 300);
+        text("no benchmark number "+ benchNumber+" was found!!", 300, 300);
         update = false;
       }
     }
@@ -180,7 +180,6 @@ void draw() {
     translate(0, 0, 0);
     rotateZ(0);
     endCamera();
-    hint(DISABLE_DEPTH_TEST);
     stroke(255);
     fill(0);
     strokeWeight(2);
@@ -188,9 +187,9 @@ void draw() {
     fill(255);
     textSize(22);
     text("FPS: "+Math.round(frameRate), 10, 25);
-    if (second() != oldsecond && benchnr>0) {
+    if (second() != oldsecond && benchNumber>0) {
       oldsecond = second();
-      total += frameRate;
+      if (benchNumber != 8) total += frameRate;
       maxMemory = Runtime.getRuntime().maxMemory();
       allocatedMemory = Runtime.getRuntime().totalMemory();
       freeMemory = Runtime.getRuntime().freeMemory();
@@ -203,17 +202,16 @@ void draw() {
       textLeading(24);
       text("total: "+total+
         "\nt: "+t+
-        "\n"+mouseX+", "+mouseY+"\n\n"+
+        "\nmouse pos:"+mouseX+", "+mouseY+"\n\n"+
         PGraphicsOpenGL.OPENGL_RENDERER+
         "\nOpenGL version: "+PGraphicsOpenGL.OPENGL_VERSION+
-        "\nGLSL version: "+ PGraphicsOpenGL.GLSL_VERSION+
         "\n\n\nmax memory: "+maxMemory/(1024*1024*1024)+" GB"+
         "\nallocated memory: "+allocatedMemory/(1024*1024)+" MB"+
         "\nfree memory: "+freeMemory/(1024*1024)+" MB"+
         "\n\n\nmade in 2024"
         , 10, 40, 280, height);
     }
-  } else { // no indentation? too bad :)
+  } else {
     background(0);
     if (endt == -1) endt = t;
     int tt = t-endt;
@@ -222,8 +220,8 @@ void draw() {
     text(titles[3], (width-textWidth(titles[3]+total))/2, height/2);
     text(total, (width+textWidth(titles[3])-textWidth(total+""))/2, min(tt*60-(60*60), height/2)); // FIXed yeyy
     textSize(22);
-    int fpsonavy = max((60-tt+60)*60, height/2)+30;
-    text("("+nf(float(total)/(maxbn*(bndur/60)), 0, 2)+ " FPS on average)", width/2, fpsonavy);
+    int FPSOnAverage = max((60-tt+60)*60, height/2)+30;
+    text("("+nf(float(total)/(totalBench*(benchDuration/60)), 0, 2)+ " FPS on average)", width/2, FPSOnAverage);
     text(titles[4], (width-textWidth(titles[4]))/2, height-30);
   }
   t=millis()/(1000/60);

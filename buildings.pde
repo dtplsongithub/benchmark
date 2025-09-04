@@ -4,11 +4,12 @@ void buildings() {
   beginCamera();
   camera();
   translate(800, 1000, 0);
-  rotateY(float(t)/1000);
+  rotateY((float)t/1000);
   endCamera();
-  directionalLight(255, 255, 255, 0, 1, 0);
+  // directionalLight(255, 255, 255, 0, 1, 0);
   ambientLight(255, 255, 255);
   translate(80, 200, 0);
+  textLeading(10);
   for (int x = 0; x<25; x++) {
     for (int y = 0; y<25; y++) {
       pushMatrix();
@@ -23,7 +24,6 @@ void buildings() {
         translate(0, 0, s);
         rotateY(PI);
         textSize(16);
-        textLeading(10);
         int size = 300+buildSizes[(x+y*40)%100]*50;
         text(buildTitle[buildTitleSettings[(x+y*10)%buildTitleSettings.length]], -textWidth(buildTitle[buildTitleSettings[(x+y*10)%buildTitleSettings.length]])/2, -size/2-5, 90, 999);
         fill(255, 255, 0);
@@ -55,4 +55,5 @@ void buildings() {
       popMatrix();
     }
   }
+  hint(DISABLE_DEPTH_TEST);
 }

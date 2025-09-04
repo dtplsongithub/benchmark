@@ -1,4 +1,5 @@
 void ballworld() {
+  hint(ENABLE_DEPTH_TEST);
   lights();
   beginCamera();
   camera();
@@ -16,4 +17,5 @@ void ballworld() {
     ballPos[i][1]+=ballV[i][1];
     ballPos[i][2]+=ballV[i][2];
   }
+  hint(DISABLE_DEPTH_TEST);
 }

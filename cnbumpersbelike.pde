@@ -3,7 +3,7 @@ void cnbumpersbelike() {
   beginCamera();
   camera();
   translate(width, 0, -400);
-  rotateY((float)(Math.toRadians(t))/10);
+  rotateY((float)t/1000);
   endCamera();
   for(int x = 0; x<(int)(ceil(width/100)*4); x++){
     for(int y = 0; y<(int)(ceil(height/100)*4); y++){
@@ -27,6 +27,7 @@ void cnbumpersbelike() {
   int thegradient = (int)(random(0, 200));
   gradients[thegradient]=color(random(0, 255*int(theone==0)),random(0, 255*int(theone==1)),random(0, 255*int(theone==2)));
   gradients2[thegradient]=color(random(0, 64*int(theone==0)),random(0, 64*int(theone==1)),random(0, 64*int(theone==2)));
+  hint(DISABLE_DEPTH_TEST);
 }
 void setGradient(int x, int y, float w, float h, color c1, color c2 ) {
   strokeWeight(5);
